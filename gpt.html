@@ -1,132 +1,164 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Chat AI</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
-        :root{
-            --bg-col:rgba(25, 25, 25, 0.921);
-        }
-        *{
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        html, body{
-            height: 100%;
-            width: 100%;
-            overflow-x: hidden;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-direction: column;
-            gap: 4vw;
-            background-color: var(--bg-col);
-            color: white;
-        }
-        form{
-            display: flex;
-            flex-direction: column;
-            gap: 2vw;
-        }
-        form textarea{
-            min-width: 50vw;
-            height: 15vw;
-            padding: 1vw;
-            border-radius: 30px;
-            border: 1px solid white;
-            color: white;
-            background-color: var(--bg-col);
-        }
-        form button{
-            width: 12vw;
-            height: 3.5vw;
-            font-size: 1.2vw;
-            align-items: center;
-            border-radius: 20px;
-            background-color: var(--bg-col);
-            color: white;
-            transition: all ease 0.3s;
-            border: 1px solid white;
-        }
-        form button:hover{
-            background-color: white;
-            color: black;
-        }
-        form a{
-            font-family: "DM Sans", sans-serif;
-            font-size: 3vw;
-        }
-        #answerContainer{
-            font-family: "DM Sans", sans-serif;
-            width: 80%;
-        }
-
+      @import url("https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+      :root {
+        --bg-col: rgba(25, 25, 25, 0.921);
+        /* --text-col: linear-gradient(to bottom, white, rgba(140, 219, 151, 1)) */
+      }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        height: 100%;
+        width: 100%;
+        overflow-x: hidden;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        gap: 4vw;
+        background-image: linear-gradient(
+            to top,
+            rgba(0, 0, 0, 0.89),
+            rgba(0, 0, 0, 0.03)
+          ),
+          url(https://plus.unsplash.com/premium_photo-1697730304904-2bdf66da8f2b?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D);
+        background-size: cover;
+        background-position: center;
+        color: white;
+      }
+      form {
+        display: flex;
+        flex-direction: column;
+        gap: 2vw;
+      }
+      form textarea {
+        min-width: 50vw;
+        height: 15vw;
+        padding: 1vw;
+        border-radius: 30px;
+        border: 1px solid white;
+        color: white;
+        background-color: transparent;
+        backdrop-filter: blur(10px);
+        font-size: 1.2vw;
+      }
+      textarea::placeholder{
+        color: white;
+      }
+      form button {
+        width: 12vw;
+        height: 3.5vw;
+        font-size: 1.2vw;
+        align-items: center;
+        border-radius: 20px;
+        background-color: transparent;
+        backdrop-filter: blur(10px);
+        color: white;
+        transition: all ease 0.3s;
+        border: 1px solid white;
+      }
+      form button:hover {
+        background-color: white;
+        color: black;
+      }
+      form a {
+        font-family: "DM Sans", sans-serif;
+        font-size: 3vw;
+      }
+      #answerContainer {
+        font-family: "DM Sans", sans-serif;
+        width: 50%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        font-size: 1.2vw;
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
     <form id="questionForm">
-        <a target="_blank" rel="noopener noreferrer">
-            <h1>Chat AI</h1>
-        </a>
-        <textarea id="questionInput" required placeholder="Ask anything"></textarea>
-        <button id="generateAnswerButton" type="submit">Generate answer</button>
+      <a target="_blank" rel="noopener noreferrer">
+        <h1>Chat AI</h1>
+      </a>
+      <textarea
+        id="questionInput"
+        required
+        placeholder="Ask anything"
+      ></textarea>
+      <button id="generateAnswerButton" type="submit">Generate answer</button>
     </form>
     <div id="answerContainer">
-        <div id="answerDisplay" class="p-4"></div>
+      <div id="answerDisplay" class="p-4"></div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script>
-        const questionForm = document.getElementById('questionForm');
-const questionInput = document.getElementById('questionInput');
-const generateAnswerButton = document.getElementById('generateAnswerButton');
-const answerDisplay = document.getElementById('answerDisplay');
+      const questionForm = document.getElementById("questionForm");
+      const questionInput = document.getElementById("questionInput");
+      const generateAnswerButton = document.getElementById(
+        "generateAnswerButton"
+      );
+      const answerDisplay = document.getElementById("answerDisplay");
 
-questionForm.addEventListener('submit', async function (e) {
-    e.preventDefault();
-    const question = questionInput.value;
-    generateAnswerButton.disabled = true;
-    generateAnswerButton.classList.add('opacity-50', 'cursor-not-allowed');
-    answerDisplay.innerHTML = "Loading your answer...<br>It might take up to 10 seconds";
+      questionForm.addEventListener("submit", async function (e) {
+        e.preventDefault();
+        const question = questionInput.value;
+        generateAnswerButton.disabled = true;
+        generateAnswerButton.classList.add("opacity-50", "cursor-not-allowed");
+        answerDisplay.innerHTML =
+          "Loading your answer...<br>It might take up to 10 seconds";
 
-    try {
-        const response = await axios.post(
+        try {
+          const response = await axios.post(
             `https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=AIzaSyAmydA8RDMANzLyKig320hjZMxRmirG24Q`,
             {
-                contents: [{
-                    parts: [{
-                        text: `I am your assistant to help you regarding any query related to heritage and culture of India. Answer the following question about heritage & cutural sites. Format the response in a friendly, conversational tone with emojis. If the question is not related to cultural and heritage, politely decline to answer. Question: ${question}`
-                    }]
-                }]
+              contents: [
+                {
+                  parts: [
+                    {
+                      text: `I am your assistant to help you regarding any query related to heritage and culture of India. Answer the following question about heritage & cutural sites. Format the response in a friendly, conversational tone with emojis. If the question is not related to cultural and heritage, politely decline to answer. Question: ${question}`,
+                    },
+                  ],
+                },
+              ],
             }
+          );
+
+          const answerText = response.data.candidates[0].content.parts[0].text;
+          answerDisplay.innerHTML = formatAnswer(answerText);
+        } catch (error) {
+          console.error(error);
+          answerDisplay.innerHTML =
+            "Sorry - Something went wrong. Please try again!";
+        }
+
+        generateAnswerButton.disabled = false;
+        generateAnswerButton.classList.remove(
+          "opacity-50",
+          "cursor-not-allowed"
         );
+      });
 
-        const answerText = response.data.candidates[0].content.parts[0].text;
-        answerDisplay.innerHTML = formatAnswer(answerText);
-    } catch (error) {
-        console.error(error);
-        answerDisplay.innerHTML = "Sorry - Something went wrong. Please try again!";
-    }
-
-    generateAnswerButton.disabled = false;
-    generateAnswerButton.classList.remove('opacity-50', 'cursor-not-allowed');
-});
-
-// Function to format the answer text
-function formatAnswer(text) {
-    return text
-        .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>') // Bold headings
-        .replace(/\n\*\s(.*?)(?=\n\*\s|$)/g, '<p>→ $1</p>') // List items with arrow
-        .replace(/\*\*\s*(.*?)\n/g, '<h2>$1</h2>') // Section headings
-        .replace(/\n/g, '<br>') // Line breaks
-        .replace(/😊/g, '😊') // Add emojis
-        .replace(/😎/g, '😎')
-        .replace(/😍/g, '😍');
-}
-
+      // Function to format the answer text
+      function formatAnswer(text) {
+        return text
+          .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>") // Bold headings
+          .replace(/\n\*\s(.*?)(?=\n\*\s|$)/g, "<p>→ $1</p>") // List items with arrow
+          .replace(/\*\*\s*(.*?)\n/g, "<h2>$1</h2>") // Section headings
+          .replace(/\n/g, "<br>") // Line breaks
+          .replace(/😊/g, "😊") // Add emojis
+          .replace(/😎/g, "😎")
+          .replace(/😍/g, "😍");
+      }
     </script>
-</body>
+  </body>
 </html>
