@@ -50,6 +50,23 @@ gsap.to(".nav1>h1", {
     zIndex: 0
 })
 
+gsap.to("#search-bar", {
+    scrollTrigger: {
+        trigger: `#search-bar`,
+        scroller: `#main`,
+        start: `1000% start`,
+        end: `1000% start`,
+        scrub: 0.2,
+        onEnter: () => {
+            gsap.to("#search-bar", {
+                width: "15vw",
+                duration: 0.3 
+            })
+        }
+    },
+    x: -680
+});
+
 gsap.from(".img-span", {
     y: 100,
     duration: 1.5,

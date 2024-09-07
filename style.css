@@ -4,6 +4,7 @@
 
 :root {
     --btm-col: rgba(140, 219, 151, 1);
+    --font-col: rgba(229, 229, 229, 0.948);
 }
 
 * {
@@ -17,7 +18,6 @@ html,
 body {
     height: 100%;
     width: 100%;
-    /* scroll-behavior: smooth; */
 }
 
 #main {
@@ -29,6 +29,53 @@ body {
 
 a {
     text-decoration: none;
+}
+#search-bar{
+    z-index: 1001;
+    position: fixed;
+    display: flex;
+    align-items: center;
+    top: 5.6%;
+    right: 33%;
+    height: 4.55vw;
+    width: 4.55vw;
+    padding: 0 0.6vw;
+    background-color: rgba(255, 255, 255, 0.232);
+    backdrop-filter: blur(10px);
+    border: 2px solid transparent;
+    border-radius: 50px;
+    cursor: text;
+    transition: all ease 0.2s;
+    overflow: hidden;
+}
+#search-bar:hover{
+    border: 2px solid var(--font-col);
+    width: 15vw;
+}
+#search-bar i{
+    font-size: 1.8vw;
+    margin: 0 9px;
+    color: var(--font-col);
+    transition: all ease 0.2s;
+}
+#search-bar:hover i{
+    color: var(--btm-col);
+}
+#search-bar input{
+    background: none;
+    border: none;
+    border-radius: 10px;
+    margin-left: 4px;
+    height: 2.2vw;
+    width: 10vw;
+    padding: 5px;
+    font-size: 1.2vw;
+    color: var(--font-col);
+    font-weight: 500;
+    outline: none;
+}
+#search-bar input::placeholder{
+    color: var(--font-col);
 }
 
 nav {
