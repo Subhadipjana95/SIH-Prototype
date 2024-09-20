@@ -3,7 +3,7 @@
 @import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=DM+Serif+Display:ital@0;1&family=Grey+Qo&family=Kaushan+Script&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 
 :root {
-    --btm-col: rgba(140, 219, 151, 1);
+    --btm-col: rgba(140, 219, 151, 1); /*8CDB97*/
     --font-col: rgba(229, 229, 229, 0.948);
 }
 
@@ -21,16 +21,16 @@ body {
 }
 
 #main {
-    overflow: hidden;
     position: relative;
+    overflow: hidden;
     background-color: black;
-
 }
 
 a {
     text-decoration: none;
 }
-#search-bar{
+
+#search-container{
     z-index: 1001;
     position: fixed;
     display: flex;
@@ -38,30 +38,63 @@ a {
     top: 5.6%;
     right: 33%;
     height: 4.55vw;
-    width: 4.55vw;
-    padding: 0 0.6vw;
+    width: 15vw; /* Increased width to accommodate expanded search bar */
+}
+
+#search-button {
+    z-index: 1001;
+    position: absolute;
+    right: 0; /* Position the button on the right side of the container */
     background-color: rgba(255, 255, 255, 0.232);
     backdrop-filter: blur(10px);
-    border: 2px solid transparent;
-    border-radius: 50px;
-    cursor: text;
-    transition: all ease 0.2s;
-    overflow: hidden;
-}
-#search-bar:hover{
-    border: 2px solid var(--font-col);
-    width: 15vw;
-}
-#search-bar i{
+    height: 4.5vw;
+    width: 4.5vw;
+    border-radius: 50%;
+    border: none;
+    cursor: pointer;
     font-size: 1.8vw;
-    margin: 0 9px;
     color: var(--font-col);
     transition: all ease 0.2s;
 }
-#search-bar:hover i{
+
+#search-button:hover {
     color: var(--btm-col);
 }
-#search-bar input{
+#search-button.modified {
+    background-color: transparent;
+    backdrop-filter: none;
+    right: 0.6vw; 
+    color: var(--btm-col);
+
+}
+
+#search-bar{
+    z-index: 1001;
+    position: absolute;
+    right: 0; /* Align to the right side of the container */
+    display: flex;
+    align-items: center;/* Align content to the right */
+    height: 4.5vw;
+    width: 4.5vw; /* Initial width same as the button */
+    padding: 0;
+    background: transparent;
+    border-radius: 30px;
+    overflow: hidden;
+    transition: all ease 0.3s;
+}
+
+#search-bar.expanded {
+    border: 1px solid transparent;
+    background-color: rgba(255, 255, 255, 0.232);
+    backdrop-filter: blur(10px);
+    width: 15vw;
+    padding: 0 0.6vw;
+}
+#search-bar:hover{
+    border: 1px solid var(--font-col);
+}
+
+#search-input{
     background: none;
     border: none;
     border-radius: 10px;
@@ -71,11 +104,51 @@ a {
     padding: 5px;
     font-size: 1.2vw;
     color: var(--font-col);
-    font-weight: 500;
+    font-weight: 600;
     outline: none;
 }
-#search-bar input::placeholder{
+#search-input::placeholder{
+    color: transparent;
+}
+#search-bar.expanded #search-input::placeholder{
     color: var(--font-col);
+}
+
+#search-results {
+    z-index: 1001;
+    position: fixed;
+    top: calc(5.6% + 5.5vw);
+    left: 52%;
+    min-width: 30vw;
+    max-height: 40vh;
+    overflow-y: auto;
+    background-color: rgba(255, 255, 255, 0.232);
+    backdrop-filter: blur(10px);
+    border-radius: 40px;
+    padding: 0.5vw;
+    display: none;
+    border: 1px solid var(--font-col);
+}
+#search-results::-webkit-scrollbar{
+    display: none;
+}
+
+#search-results.active {
+
+    display: block;
+}
+
+#search-results a {
+    display: block;
+    padding: 0.6vw 1.3vw;
+    color: var(--font-col);
+    font-size: 1vw;
+    transition: all ease 0.2s;
+}
+
+#search-results a:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: var(--btm-col);
 }
 
 nav {
@@ -317,14 +390,14 @@ nav {
 
 #page2 {
     position: relative;
-    height: 100vh;
+    height: 120vh;
     width: 100vw;
     background-image: linear-gradient(to bottom, rgb(0, 0, 0), rgba(0, 0, 0, 0.908));
 }
 
 #upper2-elems {
     position: absolute;
-    top: 25%;
+    top: 17%;
     left: 4.5%;
     width: 100%;
     height: 20%;
@@ -356,9 +429,9 @@ nav {
 }
 .swiper {
     position: absolute;
-    top: 50%;
+    top: 40%;
     width: 91.5%;
-    height: 50%;
+    height: 39%;
 }
 
 .swiper-slide {
@@ -407,25 +480,66 @@ nav {
     backdrop-filter: blur(5px);
     border: 2px solid rgb(230, 230, 230);
 }
-/* .swiper-wrapper{
-    animation-name: move;
-    animation-duration: 25s;
-    animation-timing-function: linear;
-    animation-iteration-count: infinite;
+
+#wrapper{
+    height: 300vh;
+    width: 100vw;
+}
+#page3{
+    position: sticky;
+    top: 0;
+    width: 100vw;
+    height: 100vh;
+    scale: 0.85;
+    background-color: royalblue;
+    border-radius: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* background-size: cover;
+    background-position: center;
+    background-image: 
+    linear-gradient(to bottom, rgba(0, 0, 0, 0.87), rgba(0, 0, 0, 0.09)),
+        url(https://images.unsplash.com/photo-1710162734106-6932b5799f99?q=80&w=2832&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D); */
+}
+#page4{
+    position: sticky;
+    top: 0;
+    width: 100vw;
+    height: 100vh;
+    scale: 0.85;
+    border-radius: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: crimson;
+    /* background-size: cover;
+    background-position: center;
+    background-image: 
+    linear-gradient(to bottom, rgba(0, 0, 0, 0.87), rgba(0, 0, 0, 0.09)),
+        url(https://images.unsplash.com/photo-1710162734106-6932b5799f99?q=80&w=2832&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D); */
+}
+#page5{
+    position: sticky;
+    top: 0;
+    width: 100vw;
+    height: 100vh;
+    scale: 0.85;
+    border-radius: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: aquamarine;
+    /* background-size: cover;
+    background-position: center;
+    background-image: 
+    linear-gradient(to bottom, rgba(0, 0, 0, 0.87), rgba(0, 0, 0, 0.09)),
+        url(https://images.unsplash.com/photo-1710162734106-6932b5799f99?q=80&w=2832&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D); */
 }
 
-@keyframes move {
-    from {
-        transform: translateX(0);
-    }
-
-    to {
-        transform: translateX(-100%);
-    }
-} */
-#page3 {
+#page6 {
     position: relative;
     width: 100vw;
     height: 100vh;
-    background-image: linear-gradient(to top, rgb(0, 0, 0), rgba(0, 0, 0, 0.908));
+    background-color: black;
 }
